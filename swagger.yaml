@@ -1,718 +1,349 @@
----
-swagger: "2.0"
+openapi: 3.0.2
+servers:
+  - url: https://game.pixelwalker.net
+  - url: https://api.pixelwalker.net
 info:
-  description: "This is a sample server Petstore server.  You can find out more about\
-    \ Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\
-    \  For this sample, you can use the api key `special-key` to test the authorization\
-    \ filters."
-  version: "1.0.5"
-  title: "Swagger Petstore"
-  termsOfService: "http://swagger.io/terms/"
-  contact:
-    email: "apiteam@swagger.io"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-host: "petstore.swagger.io"
-basePath: "/v2"
+  description: |-
+    Unofficial documentation for Pixelwalker API endpoints. Hopefully PixelWalker devs will change their mind, and expose OpenApi endpoint like this one and maintain it themselves.
+  version: 0.18.0-alpha
+  title: Pixelwalker API
 tags:
-- name: "pet"
-  description: "Everything about your Pets"
-  externalDocs:
-    description: "Find out more"
-    url: "http://swagger.io"
-- name: "store"
-  description: "Access to Petstore orders"
-- name: "user"
-  description: "Operations about user"
-  externalDocs:
-    description: "Find out more about our store"
-    url: "http://swagger.io"
-schemes:
-- "https"
-- "http"
+  - name: Game
+    description: Requests that can only be made to https://game.pixelwalker.net
+  - name: Api
+    description: Requests that can only be made to https://api.pixelwalker.net
 paths:
-  /pet/{petId}/uploadImage:
-    post:
-      tags:
-      - "pet"
-      summary: "uploads an image"
-      description: ""
-      operationId: "uploadFile"
-      consumes:
-      - "multipart/form-data"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet to update"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "additionalMetadata"
-        in: "formData"
-        description: "Additional data to pass to server"
-        required: false
-        type: "string"
-      - name: "file"
-        in: "formData"
-        description: "file to upload"
-        required: false
-        type: "file"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/ApiResponse"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /pet:
-    post:
-      tags:
-      - "pet"
-      summary: "Add a new pet to the store"
-      description: ""
-      operationId: "addPet"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Pet object that needs to be added to the store"
-        required: true
-        schema:
-          $ref: "#/definitions/Pet"
-      responses:
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-    put:
-      tags:
-      - "pet"
-      summary: "Update an existing pet"
-      description: ""
-      operationId: "updatePet"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Pet object that needs to be added to the store"
-        required: true
-        schema:
-          $ref: "#/definitions/Pet"
-      responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-        405:
-          description: "Validation exception"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /pet/findByStatus:
+  /listroomtypes:
     get:
       tags:
-      - "pet"
-      summary: "Finds Pets by status"
-      description: "Multiple status values can be provided with comma separated strings"
-      operationId: "findPetsByStatus"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "status"
-        in: "query"
-        description: "Status values that need to be considered for filter"
-        required: true
-        type: "array"
-        items:
-          type: "string"
-          enum:
-          - "available"
-          - "pending"
-          - "sold"
-          default: "available"
-        collectionFormat: "multi"
+        - "Game"
+      summary: "Gets server version (in a list for some reason?)"
+      operationId: "listroomtypes"
       responses:
         200:
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Pet"
-        400:
-          description: "Invalid status value"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /pet/findByTags:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  type: "string"
+  /listblocks:
     get:
       tags:
-      - "pet"
-      summary: "Finds Pets by tags"
-      description: "Multiple tags can be provided with comma separated strings. Use\
-        \ tag1, tag2, tag3 for testing."
-      operationId: "findPetsByTags"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "tags"
-        in: "query"
-        description: "Tags to filter by"
-        required: true
-        type: "array"
-        items:
-          type: "string"
-        collectionFormat: "multi"
+        - "Game"
+      summary: "Gets blocks"
+      operationId: "listroomtypes"
       responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Pet"
-        400:
-          description: "Invalid tag value"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/Block'
+  /mappings:
+    get:
+      tags:
+        - "Game"
+      summary: "Gets blocks (deprecated, use /listbloocks instead)"
+      operationId: "getMappings"
       deprecated: true
-  /pet/{petId}:
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: "object"
+                additionalProperties:
+                  type: "number"
+  /room/list/{roomType}:
     get:
       tags:
-      - "pet"
-      summary: "Find pet by ID"
-      description: "Returns a single pet"
-      operationId: "getPetById"
-      produces:
-      - "application/json"
-      - "application/xml"
+        - "Game"
+      summary: Gets lobby information for room type (no idea why room type is needed).
+      description: |
+        Fetches information about available lobbies based on the specified room type.
       parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet to return"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        200:
-          description: "successful operation"
+        - in: path
+          name: roomType
           schema:
-            $ref: "#/definitions/Pet"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-      security:
-      - api_key: []
+            type: string
+          required: true
+          description: Room type from /listroomtypes
+      responses:
+        '200':
+          description: Successful operation. Returns a list of lobbies.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LobbyResult'
+  /api/collections/users/auth-with-password:
     post:
       tags:
-      - "pet"
-      summary: "Updates a pet in the store with form data"
-      description: ""
-      operationId: "updatePetWithForm"
-      consumes:
-      - "application/x-www-form-urlencoded"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "petId"
-        in: "path"
-        description: "ID of pet that needs to be updated"
+        - "Api"
+      summary: Authenticates a user with username/email and password.
+      description: |
+        Authenticates a user against the "users" collection using a username/email and password.  Returns an authentication token and user data on success.
+      requestBody:
         required: true
-        type: "integer"
-        format: "int64"
-      - name: "name"
-        in: "formData"
-        description: "Updated name of the pet"
-        required: false
-        type: "string"
-      - name: "status"
-        in: "formData"
-        description: "Updated status of the pet"
-        required: false
-        type: "string"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identity:
+                  type: string
+                  description: The user's username or email address.
+                password:
+                  type: string
+                  description: The user's password.
       responses:
-        405:
-          description: "Invalid input"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-    delete:
-      tags:
-      - "pet"
-      summary: "Deletes a pet"
-      description: ""
-      operationId: "deletePet"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "api_key"
-        in: "header"
-        required: false
-        type: "string"
-      - name: "petId"
-        in: "path"
-        description: "Pet id to delete"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Pet not found"
-      security:
-      - petstore_auth:
-        - "write:pets"
-        - "read:pets"
-  /store/order:
-    post:
-      tags:
-      - "store"
-      summary: "Place an order for a pet"
-      description: ""
-      operationId: "placeOrder"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "order placed for purchasing the pet"
-        required: true
-        schema:
-          $ref: "#/definitions/Order"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Order"
-        400:
-          description: "Invalid Order"
-  /store/order/{orderId}:
+        '200':
+          description: Successful authentication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResultSuccess'
+        '400':
+          description: Invalid request or credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIFailure'
+  /api/joinkey/{roomType}/{roomId}:
     get:
       tags:
-      - "store"
-      summary: "Find purchase order by ID"
-      description: "For valid response try integer IDs with value >= 1 and <= 10.\
-        \ Other values will generated exceptions"
-      operationId: "getOrderById"
-      produces:
-      - "application/json"
-      - "application/xml"
+        - "Api"
+      summary: Retrieves a join key for a specific room.
+      description: |
+        Fetches a join key that can be used to join the specified room. The join key may have an expiration.
       parameters:
-      - name: "orderId"
-        in: "path"
-        description: "ID of pet that needs to be fetched"
-        required: true
-        type: "integer"
-        maximum: 10
-        minimum: 1
-        format: "int64"
-      responses:
-        200:
-          description: "successful operation"
+        - in: path
+          name: roomType
           schema:
-            $ref: "#/definitions/Order"
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Order not found"
-    delete:
-      tags:
-      - "store"
-      summary: "Delete purchase order by ID"
-      description: "For valid response try integer IDs with positive integer value.\
-        \ Negative or non-integer values will generate API errors"
-      operationId: "deleteOrder"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "orderId"
-        in: "path"
-        description: "ID of the order that needs to be deleted"
-        required: true
-        type: "integer"
-        minimum: 1
-        format: "int64"
-      responses:
-        400:
-          description: "Invalid ID supplied"
-        404:
-          description: "Order not found"
-  /store/inventory:
-    get:
-      tags:
-      - "store"
-      summary: "Returns pet inventories by status"
-      description: "Returns a map of status codes to quantities"
-      operationId: "getInventory"
-      produces:
-      - "application/json"
-      parameters: []
-      responses:
-        200:
-          description: "successful operation"
+            type: string
+          required: true
+          description: Room type from /listroomtypes
+        - in: path
+          name: roomId
           schema:
-            type: "object"
-            additionalProperties:
-              type: "integer"
-              format: "int32"
-      security:
-      - api_key: []
-  /user/createWithArray:
-    post:
-      tags:
-      - "user"
-      summary: "Creates list of users with given input array"
-      description: ""
-      operationId: "createUsersWithArrayInput"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
-        required: true
-        schema:
-          type: "array"
+            type: string
+          required: true
+          description: World ID.
+      responses:
+        '200':
+          description: Successful operation. Returns the join key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JoinKeyResult'
+        '403':
+          description: Not authenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIFailure'
+components:
+  schemas:
+    Block:
+      properties:
+        Id:
+          type: integer
+          format: int64
+          description: Block ID
+        PaletteId:
+          type: string
+          description: >-
+            Useful for mapping, allows you to identify the block in case the numeric ID changes.
+            
+            This is what they refer to as block name for some reason.
+            
+            NOTE: There may still be an occasion where the block's name is changed, for eg due to a typo.
+        Layer:
+          type: integer
+          description: 0 for Background, 1 for Foreground.
+        MinimapColor:
+          type: integer
+          description: >-
+            Unsigned 32 bit integer.
+            
+            (If you need the hex string: use .toString(16) with 16 as the radix and trim off the leading FF. To convert it back to number, use parseInt(hexstring, 16))
+        LegacyId:
+          type: integer
+          description: EELVL ID.
+        LegacyMorph:
+          type: array
           items:
-            $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
-  /user/createWithList:
-    post:
-      tags:
-      - "user"
-      summary: "Creates list of users with given input array"
-      description: ""
-      operationId: "createUsersWithListInput"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "List of user object"
-        required: true
-        schema:
-          type: "array"
+            type: integer
+          description: EELVL Block arguments.
+      type: object
+    LobbyResult:
+      type: object
+      description: Lobby information.
+      properties:
+        visibleRooms:
+          type: array
           items:
-            $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
-  /user/{username}:
-    get:
-      tags:
-      - "user"
-      summary: "Get user by user name"
-      description: ""
-      operationId: "getUserByName"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "The name that needs to be fetched. Use user1 for testing. "
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/User"
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
-    put:
-      tags:
-      - "user"
-      summary: "Updated user"
-      description: "This can only be done by the logged in user."
-      operationId: "updateUser"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "name that need to be updated"
-        required: true
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Updated user object"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
-      responses:
-        400:
-          description: "Invalid user supplied"
-        404:
-          description: "User not found"
-    delete:
-      tags:
-      - "user"
-      summary: "Delete user"
-      description: "This can only be done by the logged in user."
-      operationId: "deleteUser"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "path"
-        description: "The name that needs to be deleted"
-        required: true
-        type: "string"
-      responses:
-        400:
-          description: "Invalid username supplied"
-        404:
-          description: "User not found"
-  /user/login:
-    get:
-      tags:
-      - "user"
-      summary: "Logs user into the system"
-      description: ""
-      operationId: "loginUser"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - name: "username"
-        in: "query"
-        description: "The user name for login"
-        required: true
-        type: "string"
-      - name: "password"
-        in: "query"
-        description: "The password for login in clear text"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
-          headers:
-            X-Expires-After:
-              type: "string"
-              format: "date-time"
-              description: "date in UTC when token expires"
-            X-Rate-Limit:
-              type: "integer"
-              format: "int32"
-              description: "calls per hour allowed by the user"
-          schema:
-            type: "string"
-        400:
-          description: "Invalid username/password supplied"
-  /user/logout:
-    get:
-      tags:
-      - "user"
-      summary: "Logs out current logged in user session"
-      description: ""
-      operationId: "logoutUser"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters: []
-      responses:
-        default:
-          description: "successful operation"
-  /user:
-    post:
-      tags:
-      - "user"
-      summary: "Create user"
-      description: "This can only be done by the logged in user."
-      operationId: "createUser"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      - "application/xml"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Created user object"
-        required: true
-        schema:
-          $ref: "#/definitions/User"
-      responses:
-        default:
-          description: "successful operation"
-securityDefinitions:
-  api_key:
-    type: "apiKey"
-    name: "api_key"
-    in: "header"
-  petstore_auth:
-    type: "oauth2"
-    authorizationUrl: "https://petstore.swagger.io/oauth/authorize"
-    flow: "implicit"
-    scopes:
-      read:pets: "read your pets"
-      write:pets: "modify pets in your account"
-definitions:
-  ApiResponse:
-    type: "object"
-    properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
-        type: "string"
-      message:
-        type: "string"
-  Category:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Category"
-  Pet:
-    type: "object"
-    required:
-    - "name"
-    - "photoUrls"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      category:
-        $ref: "#/definitions/Category"
-      name:
-        type: "string"
-        example: "doggie"
-      photoUrls:
-        type: "array"
-        xml:
-          wrapped: true
-        items:
-          type: "string"
-          xml:
-            name: "photoUrl"
-      tags:
-        type: "array"
-        xml:
-          wrapped: true
-        items:
-          xml:
-            name: "tag"
-          $ref: "#/definitions/Tag"
-      status:
-        type: "string"
-        description: "pet status in the store"
-        enum:
-        - "available"
-        - "pending"
-        - "sold"
-    xml:
-      name: "Pet"
-  Tag:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-    xml:
-      name: "Tag"
-  Order:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      petId:
-        type: "integer"
-        format: "int64"
-      quantity:
-        type: "integer"
-        format: "int32"
-      shipDate:
-        type: "string"
-        format: "date-time"
-      status:
-        type: "string"
-        description: "Order Status"
-        enum:
-        - "placed"
-        - "approved"
-        - "delivered"
-      complete:
-        type: "boolean"
-    xml:
-      name: "Order"
-  User:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      username:
-        type: "string"
-      firstName:
-        type: "string"
-      lastName:
-        type: "string"
-      email:
-        type: "string"
-      password:
-        type: "string"
-      phone:
-        type: "string"
-      userStatus:
-        type: "integer"
-        format: "int32"
-        description: "User Status"
-    xml:
-      name: "User"
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+            $ref: '#/components/schemas/LobbyResultWorld'
+        onlineRoomCount:
+          type: integer
+          description: The total number of online worlds.
+        onlinePlayerCount:
+          type: integer
+          description: The total number of online players across all worlds.
+    LobbyResultWorld:
+      type: object
+      description: Information about a specific world.
+      properties:
+        id:
+          type: integer
+          description: The unique identifier of the world.
+        players:
+          type: integer
+          description: The current number of players in the world.
+        max_players:
+          type: integer
+          description: The maximum number of players allowed in the world.
+        data:
+          $ref: '#/components/schemas/LobbyResultWorldData'
+
+    LobbyResultWorldData:
+      type: object
+      description: Additional data associated with the world.
+      properties:
+        title:
+          type: string
+          description: The title of the world.
+        description:
+          type: string
+          description: A description of the world.
+        owner:
+          type: string
+          description: Owner of world.
+        ownerRole:
+          type: string
+          description: "Special role of owner. Observed possible values: [committee, dev]. If owner doesn't have role, empty string returned."
+        plays:
+          type: integer
+          description: The number of times this world has been played.
+        minimapEnabled:
+          type: boolean
+          description: Indicates whether the minimap is enabled for this world.
+        type:
+          type: integer
+          description: "The type of the world. Observed possible values: [0, 1, 2]. Educated guesses of type values: 0 - normal worlds, 1 - unsaved worlds, 2 - legacy worlds with prefix 'legacy:' in world id."
+    AuthResultSuccess:
+      type: object
+      description: Successful authentication result.
+      properties:
+        record:
+          $ref: '#/components/schemas/AuthResultData'
+          description: User record data.
+        token:
+          type: string
+          description: The authentication token for future requests.
+
+    AuthResultData:
+      type: object
+      description: User data returned after successful authentication.
+      properties:
+        banned:
+          type: boolean
+          description: Indicates if the user is banned.
+        collectionId:
+          type: string
+          description: The ID of the collection the user belongs to.
+        collectionName:
+          type: string
+          description: The name of the collection the user belongs to.
+        created:
+          type: string
+          format: date-time
+          description: The date and time the user was created (ISO 8601 format).
+        email:
+          type: string
+          format: email
+          description: The user's email address.
+        emailVisibility:
+          type: boolean
+          description: Indicates if the user's email address is visible to others.
+        face:
+          type: integer
+          description: The user's face ID.
+        friends:
+          type: array
+          items:
+            type: string
+          description: List of user IDs of the user's friends.
+        id:
+          type: string
+          description: The unique user ID.
+        isSuspicious:
+          type: boolean
+          description: Indicates if the user is considered suspicious.
+        lastSeen:
+          type: string
+          format: date-time
+          description: The date and time the user was last seen (ISO 8601 format).
+        lastWorld:
+          type: string
+          description: The ID of the last world the user was in.
+        lastWorldTitle:
+          type: string
+          description: The title of the last world the user was in.
+        role:
+          type: string
+          description: The user's role.
+        updated:
+          type: string
+          format: date-time
+          description: The date and time the user was last updated (ISO 8601 format).
+        username:
+          type: string
+          description: The user's username.
+        verified:
+          type: boolean
+          description: Indicates if the user's email address is verified.
+
+    APIFailure:
+      type: object
+      description: Validation error details for specific fields.
+      properties:
+        data:
+          type: object
+          description: Validation error details for specific fields.
+        message:
+          type: string
+          description: A human-readable error message (e.g., "Failed to authenticate.").
+        status:
+          type: string
+          description: "HTTP code (e.g., '400')."
+
+    FieldError:
+      type: object
+      description: Details of a validation error for a specific field.
+      properties:
+        code:
+          type: string
+          description: The error code (e.g., "validation_required").
+        message:
+          type: string
+          description: A human-readable error message (e.g., "Cannot be blank.").
+    JoinKeyResult:
+      type: object
+      description: The result of the join key request.
+      properties:
+        token:
+          type: string
+          description: The join key token. This token is used to join the specified room.
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'JWT token obtained from /api/collections/users/auth-with-password'
+security:
+  - ApiKey: [ ]
