@@ -1,23 +1,24 @@
 openapi: 3.0.2
-servers:
-  - url: https://game.pixelwalker.net
-  - url: https://api.pixelwalker.net
 info:
   description: |-
-    Unofficial documentation for Pixelwalker API endpoints. Hopefully PixelWalker devs will change their mind, and expose OpenApi endpoint like this one and maintain it themselves.
+    Unofficial API documentation for PixelWalker game https://pixelwalker.net.
+    
+    Hopefully PixelWalker devs will change their mind, and expose OpenApi endpoint like this one and maintain it themselves.
   version: 0.18.0-alpha
-  title: Pixelwalker API
+  title: PixelWalker API
 tags:
   - name: Game
-    description: Requests that can only be made to https://game.pixelwalker.net
+    description: https://game.pixelwalker.net endpoints.
   - name: Api
-    description: Requests that can only be made to https://api.pixelwalker.net
+    description: https://api.pixelwalker.net endpoints.
 paths:
   /listroomtypes:
     get:
+      servers:
+        - url: https://game.pixelwalker.net
       tags:
         - "Game"
-      summary: "Gets server version (in a list for some reason?)"
+      summary: "Gets server version"
       operationId: "listroomtypes"
       responses:
         200:
@@ -30,9 +31,11 @@ paths:
                   type: "string"
   /listblocks:
     get:
+      servers:
+        - url: https://game.pixelwalker.net
       tags:
         - "Game"
-      summary: "Gets blocks"
+      summary: "Gets all blocks available in PixelWalker"
       operationId: "listroomtypes"
       responses:
         '200':
@@ -45,9 +48,11 @@ paths:
                   $ref: '#/components/schemas/Block'
   /mappings:
     get:
+      servers:
+        - url: https://game.pixelwalker.net
       tags:
         - "Game"
-      summary: "Gets blocks (deprecated, use /listbloocks instead)"
+      summary: "Gets all blocks available in PixelWalker (deprecated, use /listbloocks instead)"
       operationId: "getMappings"
       deprecated: true
       responses:
@@ -61,11 +66,11 @@ paths:
                   type: "number"
   /room/list/{roomType}:
     get:
+      servers:
+        - url: https://game.pixelwalker.net
       tags:
         - "Game"
-      summary: Gets lobby information for room type (no idea why room type is needed).
-      description: |
-        Fetches information about available lobbies based on the specified room type.
+      summary: Gets lobby information for room type.
       parameters:
         - in: path
           name: roomType
@@ -82,11 +87,11 @@ paths:
                 $ref: '#/components/schemas/LobbyResult'
   /api/collections/users/auth-with-password:
     post:
+      servers:
+        - url: https://api.pixelwalker.net
       tags:
         - "Api"
       summary: Authenticates a user with username/email and password.
-      description: |
-        Authenticates a user against the "users" collection using a username/email and password.  Returns an authentication token and user data on success.
       requestBody:
         required: true
         content:
@@ -115,11 +120,11 @@ paths:
                 $ref: '#/components/schemas/APIFailure'
   /api/joinkey/{roomType}/{roomId}:
     get:
+      servers:
+        - url: https://api.pixelwalker.net
       tags:
         - "Api"
       summary: Retrieves a join key for a specific room.
-      description: |
-        Fetches a join key that can be used to join the specified room. The join key may have an expiration.
       parameters:
         - in: path
           name: roomType
@@ -146,13 +151,121 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/APIFailure'
+  /api/collections/worlds/records:
+    get:
+      servers:
+        - url: https://api.pixelwalker.net
+      tags:
+        - "Api"
+      summary: If authenticated, returns all worlds owned by authenticated user. Otherwise, returns all worlds owned by no one(?).
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: The page number to retrieve.
+        - in: query
+          name: perPage
+          schema:
+            type: integer
+            default: 10
+          description: The number of items per page.
+      responses:
+        '200':
+          description: Successful operation. Returns the join key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionResultWorlds'
+  /api/collections/public_profiles/records:
+    get:
+      servers:
+        - url: https://api.pixelwalker.net
+      tags:
+        - "Api"
+      summary: Returns all public profiles.
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: The page number to retrieve.
+        - in: query
+          name: perPage
+          schema:
+            type: integer
+            default: 10
+          description: The number of items per page.
+      responses:
+        '200':
+          description: Successful operation. Returns the join key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionResultPublicProfiles'
+  /api/collections/public_worlds/records:
+    get:
+      servers:
+        - url: https://api.pixelwalker.net
+      tags:
+        - "Api"
+      summary: Returns all public worlds.
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: The page number to retrieve.
+        - in: query
+          name: perPage
+          schema:
+            type: integer
+            default: 10
+          description: The number of items per page.
+      responses:
+        '200':
+          description: Successful operation. Returns the join key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionResultPublicWorlds'
+  /api/files/rhrbt6wqhc4s0cp/{worldId}/{worldMinimap}:
+    get:
+      servers:
+        - url: https://api.pixelwalker.net
+      tags:
+        - "Api"
+      summary: Returns minimap image.
+      parameters:
+        - in: path
+          name: worldId
+          schema:
+            type: string
+          required: true
+          description: World ID ('id' field from /api/collections/public_worlds/records)
+        - in: path
+          name: worldMinimap
+          schema:
+            type: string
+          required: true
+          description: World Minimap ID ('minimap' field from /api/collections/public_worlds/records)
+      responses:
+        '200':
+          description: Successful operation. Returns the join key.
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
 components:
   schemas:
     Block:
       properties:
         Id:
           type: integer
-          format: int64
           description: Block ID
         PaletteId:
           type: string
@@ -200,7 +313,7 @@ components:
       properties:
         id:
           type: integer
-          description: The unique identifier of the world.
+          description: ID.
         players:
           type: integer
           description: The current number of players in the world.
@@ -225,7 +338,7 @@ components:
           description: Owner of world.
         ownerRole:
           type: string
-          description: "Special role of owner. Observed possible values: [committee, dev]. If owner doesn't have role, empty string returned."
+          description: "Special role of owner. Observed possible values: [admin, committee, dev]. If owner doesn't have role, empty string returned."
         plays:
           type: integer
           description: The number of times this world has been played.
@@ -262,7 +375,7 @@ components:
         created:
           type: string
           format: date-time
-          description: The date and time the user was created (ISO 8601 format).
+          description: The date and time entry was created (ISO 8601 format).
         email:
           type: string
           format: email
@@ -280,7 +393,7 @@ components:
           description: List of user IDs of the user's friends.
         id:
           type: string
-          description: The unique user ID.
+          description: ID.
         isSuspicious:
           type: boolean
           description: Indicates if the user is considered suspicious.
@@ -296,7 +409,7 @@ components:
           description: The title of the last world the user was in.
         role:
           type: string
-          description: The user's role.
+          description: "Special role of user. Observed possible values: [admin, committee, dev]. If owner doesn't have role, empty string returned."
         updated:
           type: string
           format: date-time
@@ -339,6 +452,177 @@ components:
         token:
           type: string
           description: The join key token. This token is used to join the specified room.
+    WorldItem:
+      type: object
+      properties:
+        collectionId:
+          type: string
+          description: The ID of the collection this world belongs to.
+        collectionName:
+          type: string
+          description: The name of the collection this world belongs to (e.g., "worlds").
+        created:
+          type: string
+          format: date-time
+          description: The date and time entry was created (ISO 8601 format).
+        data:
+          type: string
+          description: The filename or identifier of the world data file.
+        description:
+          type: string
+          description: A description of the world.  Can be an empty string.
+        height:
+          type: integer
+          description: The height of the world.
+        id:
+          type: string
+          description: The unique identifier of the world.
+        maxPlayers:
+          type: integer
+          description: The maximum number of players allowed in the world.
+        minimap:
+          type: string
+          description: The filename or identifier of the minimap image.  Can be an empty string if no minimap is available.
+        minimapEnabled:
+          type: boolean
+          description: Indicates whether the minimap is enabled for this world.
+        owner:
+          type: string
+          description: The ID of the user who owns this world.
+        plays:
+          type: integer
+          description: The number of times this world has been played.
+        title:
+          type: string
+          description: The title of the world.
+        updated:
+          type: string
+          format: date-time
+          description: The last update timestamp in ISO 8601 format (YYYY-MM-DDTHH:mm:ss.sssZ).
+        visibility:
+          type: string
+          description: The visibility of the world (e.g., "public", "private").
+        width:
+          type: integer
+          description: The width of the world.
+    CollectionResultWorlds:
+      type: object
+      properties:
+        items:
+          type: array
+          description: An array of world items.
+          items:
+            $ref: '#/components/schemas/WorldItem'
+        page:
+          type: integer
+          description: The current page number.
+        perPage:
+          type: integer
+          description: The number of items per page.
+        totalItems:
+          type: integer
+          description: The total number of items available.
+        totalPages:
+          type: integer
+          description: The total number of pages.
+    PublicProfileItem:
+      type: object
+      properties:
+        collectionId:
+          type: string
+          description: The ID of the collection the user belongs to.
+        collectionName:
+          type: string
+          description: The name of the collection the user belongs to.
+        created:
+          type: string
+          format: date-time
+          description: The date and time entry was created (ISO 8601 format).
+        face:
+          type: integer
+          description: The user's face ID.
+        id:
+          type: string
+          description: ID.
+        role:
+          type: string
+          description: "Special role of user. Observed possible values: [admin, committee, dev]. If owner doesn't have role, empty string returned."
+        username:
+          type: string
+          description: The user's username.
+    CollectionResultPublicProfiles:
+      type: object
+      properties:
+        items:
+          type: array
+          description: An array of world items.
+          items:
+            $ref: '#/components/schemas/PublicProfileItem'
+        page:
+          type: integer
+          description: The current page number.
+        perPage:
+          type: integer
+          description: The number of items per page.
+        totalItems:
+          type: integer
+          description: The total number of items available.
+        totalPages:
+          type: integer
+          description: The total number of pages.
+    PublicProfileWorld:
+      type: object
+      properties:
+        collectionId:
+          type: string
+          description: The ID of the collection this world belongs to.
+        collectionName:
+          type: string
+          description: The name of the collection this world belongs to (e.g., "worlds").
+        description:
+          type: string
+          description: A description of the world.  Can be an empty string.
+        height:
+          type: integer
+          description: The height of the world.
+        id:
+          type: string
+          description: The unique identifier of the world.
+        minimap:
+          type: string
+          description: The filename or identifier of the minimap image.  Can be an empty string if no minimap is available.
+        owner:
+          type: string
+          description: The ID of the user who owns this world.
+        plays:
+          type: integer
+          description: The number of times this world has been played.
+        title:
+          type: string
+          description: The title of the world.
+        width:
+          type: integer
+          description: The width of the world.
+    CollectionResultPublicWorlds:
+      type: object
+      properties:
+        items:
+          type: array
+          description: An array of world items.
+          items:
+            $ref: '#/components/schemas/PublicProfileWorld'
+        page:
+          type: integer
+          description: The current page number.
+        perPage:
+          type: integer
+          description: The number of items per page.
+        totalItems:
+          type: integer
+          description: The total number of items available.
+        totalPages:
+          type: integer
+          description: The total number of pages.
   securitySchemes:
     ApiKey:
       type: apiKey
