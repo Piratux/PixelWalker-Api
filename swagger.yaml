@@ -19,7 +19,6 @@ paths:
       tags:
         - "Game"
       summary: "Gets server version"
-      operationId: "listroomtypes"
       responses:
         200:
           description: Successful operation
@@ -36,7 +35,6 @@ paths:
       tags:
         - "Game"
       summary: "Gets all blocks available in PixelWalker"
-      operationId: "listroomtypes"
       responses:
         '200':
           description: Successful operation
@@ -53,7 +51,6 @@ paths:
       tags:
         - "Game"
       summary: "Gets all blocks available in PixelWalker (deprecated, use /listbloocks instead)"
-      operationId: "getMappings"
       deprecated: true
       responses:
         '200':
