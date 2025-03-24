@@ -4,7 +4,7 @@ info:
     Unofficial API documentation for PixelWalker game https://pixelwalker.net.
     
     Hopefully PixelWalker devs will change their mind, and expose OpenApi endpoint like this one and maintain it themselves.
-  version: 0.18.0-alpha
+  version: 0.19.0-alpha
   title: PixelWalker API
 tags:
   - name: Game
@@ -275,6 +275,34 @@ components:
         Layer:
           type: integer
           description: 0 for Background, 1 for Foreground.
+        BlockDataArgs:
+          type: array
+          items:
+            type: integer
+          description: |-
+            Array of argument types for block. If this field is not specified, block has no arguments.
+            
+            Possible argument type values:
+            
+            - 0: String
+            
+            - 1: Byte
+            
+            - 2: Int16
+            
+            - 3: Int32
+            
+            - 4: Int64
+            
+            - 5: Float
+            
+            - 6: Double
+            
+            - 7: Boolean
+            
+            - 8: ByteArray
+            
+            - 9: Uint32
         MinimapColor:
           type: integer
           description: >-
