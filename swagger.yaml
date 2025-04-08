@@ -1,10 +1,12 @@
 openapi: 3.0.2
 info:
   description: |-
-    Unofficial API documentation for PixelWalker game https://pixelwalker.net.
+    Unofficial API documentation for <a href="https://pixelwalker.net" target="_blank">PixelWalker game</a>.
     
-    Hopefully PixelWalker devs will change their mind, and expose OpenApi endpoint like this one and maintain it themselves.
-  version: 0.19.0-alpha
+    Hopefully PixelWalker developers will change their mind, and expose OpenApi endpoint like this one and maintain it themselves.
+    
+    Websocket protocol (WSS) can be found <a href="https://github.com/PixelWalkerGame/Protocol" target="_blank">here</a>.
+  version: 0.20.0-alpha
   title: PixelWalker API
 tags:
   - name: Game
