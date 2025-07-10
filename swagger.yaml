@@ -341,7 +341,7 @@ components:
           description: Owner of world.
         ownerRole:
           type: string
-          description: "Special role of owner. Observed possible values: [admin, committee, dev]. If owner doesn't have role, empty string returned."
+          description: "Special role of owner. Observed possible values: [admin, committee, dev, mod]. If owner doesn't have role, empty string returned."
         plays:
           type: integer
           description: The number of times this world has been played.
@@ -412,7 +412,7 @@ components:
           description: The title of the last world the user was in.
         role:
           type: string
-          description: "Special role of user. Observed possible values: [admin, committee, dev]. If owner doesn't have role, empty string returned."
+          description: "Special role of user. Observed possible values: [admin, committee, dev, mod]. If owner doesn't have role, empty string returned."
         updated:
           type: string
           format: date-time
@@ -549,7 +549,7 @@ components:
           description: ID.
         role:
           type: string
-          description: "Special role of user. Observed possible values: [admin, committee, dev]. If owner doesn't have role, empty string returned."
+          description: "Special role of user. Observed possible values: [admin, committee, dev, mod]. If owner doesn't have role, empty string returned."
         updated:
           type: string
           format: date-time
