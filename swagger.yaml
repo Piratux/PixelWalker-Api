@@ -6,7 +6,7 @@ info:
     Hopefully PixelWalker developers will change their mind, and expose OpenApi endpoint like this one and maintain it themselves.
     
     Websocket protocol (WSS) can be found <a href="https://github.com/PixelWalkerGame/Protocol" target="_blank">here</a>.
-  version: 0.20.0-alpha
+  version: 0.22.0-alpha
   title: PixelWalker API
 tags:
   - name: Game
