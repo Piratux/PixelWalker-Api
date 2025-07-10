@@ -249,7 +249,16 @@ components:
             NOTE: There may still be an occasion where the block's name is changed, for eg due to a typo.
         Layer:
           type: integer
-          description: 0 for Background, 1 for Foreground.
+          description: |-
+            Layer on which block can be placed (empty block is an exception as it can be placed in all layers).
+            
+            Possible values:
+            
+            - 0: Background
+            
+            - 1: Foreground
+            
+            - 2: Overlay
         BlockDataArgs:
           type: array
           items:
