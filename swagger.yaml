@@ -204,33 +204,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CollectionResultPublicProfiles'
-  /api/collections/public_worlds/records:
-    get:
-      servers:
-        - url: https://api.pixelwalker.net
-      tags:
-        - "Api"
-      summary: Returns all public worlds.
-      parameters:
-        - in: query
-          name: page
-          schema:
-            type: integer
-            default: 1
-          description: The page number to retrieve.
-        - in: query
-          name: perPage
-          schema:
-            type: integer
-            default: 10
-          description: The number of items per page.
-      responses:
-        '200':
-          description: Successful operation. Returns the join key.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CollectionResultPublicWorlds'
   /api/files/rhrbt6wqhc4s0cp/{worldId}/{worldMinimap}:
     get:
       servers:
@@ -585,59 +558,6 @@ components:
           description: An array of world items.
           items:
             $ref: '#/components/schemas/PublicProfileItem'
-        page:
-          type: integer
-          description: The current page number.
-        perPage:
-          type: integer
-          description: The number of items per page.
-        totalItems:
-          type: integer
-          description: The total number of items available.
-        totalPages:
-          type: integer
-          description: The total number of pages.
-    PublicProfileWorld:
-      type: object
-      properties:
-        collectionId:
-          type: string
-          description: The ID of the collection this world belongs to.
-        collectionName:
-          type: string
-          description: The name of the collection this world belongs to (e.g., "worlds").
-        description:
-          type: string
-          description: A description of the world.  Can be an empty string.
-        height:
-          type: integer
-          description: The height of the world.
-        id:
-          type: string
-          description: The unique identifier of the world.
-        minimap:
-          type: string
-          description: The filename or identifier of the minimap image.  Can be an empty string if no minimap is available.
-        owner:
-          type: string
-          description: The ID of the user who owns this world.
-        plays:
-          type: integer
-          description: The number of times this world has been played.
-        title:
-          type: string
-          description: The title of the world.
-        width:
-          type: integer
-          description: The width of the world.
-    CollectionResultPublicWorlds:
-      type: object
-      properties:
-        items:
-          type: array
-          description: An array of world items.
-          items:
-            $ref: '#/components/schemas/PublicProfileWorld'
         page:
           type: integer
           description: The current page number.
