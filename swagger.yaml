@@ -177,7 +177,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CollectionResultWorlds'
-  /api/collections/public_profiles/records:
+  /api/collections/users/records:
     get:
       servers:
         - url: https://api.pixelwalker.net
@@ -203,7 +203,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CollectionResultPublicProfiles'
+                $ref: '#/components/schemas/CollectionResultUsers'
   /api/files/rhrbt6wqhc4s0cp/{worldId}/{worldMinimap}:
     get:
       servers:
@@ -534,7 +534,7 @@ components:
         totalPages:
           type: integer
           description: The total number of pages.
-    PublicProfileItem:
+    UserItem:
       type: object
       properties:
         collectionId:
@@ -556,17 +556,21 @@ components:
         role:
           type: string
           description: "Special role of user. Observed possible values: [admin, committee, dev]. If owner doesn't have role, empty string returned."
+        updated:
+          type: string
+          format: date-time
+          description: The date and time entry was updated (ISO 8601 format).
         username:
           type: string
           description: The user's username.
-    CollectionResultPublicProfiles:
+    CollectionResultUsers:
       type: object
       properties:
         items:
           type: array
           description: An array of world items.
           items:
-            $ref: '#/components/schemas/PublicProfileItem'
+            $ref: '#/components/schemas/UserItem'
         page:
           type: integer
           description: The current page number.
