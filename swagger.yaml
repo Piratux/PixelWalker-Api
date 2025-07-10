@@ -84,6 +84,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LobbyResult'
+  /worlds/{worldId}/minimap:
+    get:
+      servers:
+        - url: https://game.pixelwalker.net
+      tags:
+        - "Game"
+      summary: Returns minimap image.
+      parameters:
+        - in: path
+          name: worldId
+          schema:
+            type: string
+          required: true
+          description: World ID
+      responses:
+        '200':
+          description: Successful operation. Returns the join key.
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
   /api/collections/users/auth-with-password:
     post:
       servers:
@@ -204,34 +226,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CollectionResultUsers'
-  /api/files/rhrbt6wqhc4s0cp/{worldId}/{worldMinimap}:
-    get:
-      servers:
-        - url: https://api.pixelwalker.net
-      tags:
-        - "Api"
-      summary: Returns minimap image.
-      parameters:
-        - in: path
-          name: worldId
-          schema:
-            type: string
-          required: true
-          description: World ID ('id' field from /api/collections/public_worlds/records)
-        - in: path
-          name: worldMinimap
-          schema:
-            type: string
-          required: true
-          description: World Minimap ID ('minimap' field from /api/collections/public_worlds/records)
-      responses:
-        '200':
-          description: Successful operation. Returns the join key.
-          content:
-            image/png:
-              schema:
-                type: string
-                format: binary
 components:
   schemas:
     Block:
