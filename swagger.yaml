@@ -226,6 +226,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CollectionResultUsers'
+  /api/friends:
+    get:
+      servers:
+        - url: https://api.pixelwalker.net
+      tags:
+        - "Api"
+      summary: Returns authenticated user friends.
+      responses:
+        '200':
+          description: Successful operation. Returns the list of friends.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FriendItem'
+        '403':
+          description: Not authenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIFailure'
 components:
   schemas:
     Block:
@@ -577,6 +599,31 @@ components:
         totalPages:
           type: integer
           description: The total number of pages.
+    FriendItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: User ID.
+        username:
+          type: string
+          description: The user's username.
+        role:
+          type: string
+          description: "Special role of user. Observed possible values: [admin, committee, dev, mod]. If user doesn't have role, empty string returned."
+        face:
+          type: integer
+          description: The user's face ID.
+        lastSeen:
+          type: string
+          format: date-time
+          description: The date and time the user was last seen (ISO 8601 format).
+        lastWorld:
+          type: string
+          description: The ID of the last world the user was in.
+        lastWorldTitle:
+          type: string
+          description: The title of the last world the user was in.
   securitySchemes:
     ApiKey:
       type: apiKey
