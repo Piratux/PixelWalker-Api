@@ -13,6 +13,8 @@ tags:
     description: https://game.pixelwalker.net endpoints.
   - name: Api
     description: https://api.pixelwalker.net endpoints.
+  - name: Client
+    description: https://client.pixelwalker.net endpoints.
 paths:
   /listroomtypes:
     get:
@@ -248,6 +250,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/APIFailure'
+  /atlases/sprites.png:
+    get:
+      servers:
+        - url: https://client.pixelwalker.net
+      tags:
+        - "Client"
+      summary: Returns smiley related spritesheet.
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
 components:
   schemas:
     Block:
