@@ -265,6 +265,49 @@ paths:
               schema:
                 type: string
                 format: binary
+  /atlases/sprites.json:
+    get:
+      servers:
+        - url: https://client.pixelwalker.net
+      tags:
+        - "Client"
+      summary: Returns spritesheet info for sprites.png.
+      responses:
+        '200':
+          description: Successful operation. Returns the list of friends.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AtlasItem'
+  /atlases/blocks.png:
+    get:
+      servers:
+        - url: https://client.pixelwalker.net
+      tags:
+        - "Client"
+      summary: Returns block spritesheet.
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+  /atlases/blocks.json:
+    get:
+      servers:
+        - url: https://client.pixelwalker.net
+      tags:
+        - "Client"
+      summary: Returns spritesheet info for blocks.png.
+      responses:
+        '200':
+          description: Successful operation. Returns the list of friends.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AtlasItem'
 components:
   schemas:
     Block:
@@ -641,6 +684,77 @@ components:
         lastWorldTitle:
           type: string
           description: The title of the last world the user was in.
+    AtlasItem:
+      type: object
+      properties:
+        frames:
+          type: array
+          items:
+            type: object
+            properties:
+              filename:
+                type: string
+                description: The filename of the sprite.
+              frame:
+                type: object
+                properties:
+                  x:
+                    type: integer
+                  y:
+                    type: integer
+                  w:
+                    type: integer
+                  h:
+                    type: integer
+              rotated:
+                type: boolean
+              trimmed:
+                type: boolean
+              spriteSourceSize:
+                type: object
+                properties:
+                  x:
+                    type: integer
+                  y:
+                    type: integer
+                  w:
+                    type: integer
+                  h:
+                    type: integer
+              sourceSize:
+                type: object
+                properties:
+                  w:
+                    type: integer
+                  h:
+                    type: integer
+              pivot:
+                type: object
+                properties:
+                  x:
+                    type: number
+                  y:
+                    type: number
+        meta:
+          type: object
+          properties:
+            app:
+              type: string
+            version:
+              type: string
+            image:
+              type: string
+            format:
+              type: string
+            size:
+              type: object
+              properties:
+                w:
+                  type: integer
+                h:
+                  type: integer
+            scale:
+              type: number
   securitySchemes:
     ApiKey:
       type: apiKey
