@@ -9,8 +9,8 @@ info:
   version: 0.22.0-alpha
   title: PixelWalker API
 tags:
-  - name: Game
-    description: https://game.pixelwalker.net endpoints.
+  - name: Server
+    description: https://server.pixelwalker.net endpoints.
   - name: Api
     description: https://api.pixelwalker.net endpoints.
   - name: Client
@@ -19,9 +19,9 @@ paths:
   /listroomtypes:
     get:
       servers:
-        - url: https://game.pixelwalker.net
+        - url: https://server.pixelwalker.net
       tags:
-        - "Game"
+        - "Server"
       summary: "Gets server version"
       responses:
         200:
@@ -35,9 +35,9 @@ paths:
   /listblocks:
     get:
       servers:
-        - url: https://game.pixelwalker.net
+        - url: https://server.pixelwalker.net
       tags:
-        - "Game"
+        - "Server"
       summary: "Gets all blocks available in PixelWalker"
       responses:
         '200':
@@ -51,9 +51,9 @@ paths:
   /mappings:
     get:
       servers:
-        - url: https://game.pixelwalker.net
+        - url: https://server.pixelwalker.net
       tags:
-        - "Game"
+        - "Server"
       summary: "Gets all blocks available in PixelWalker (deprecated, use /listbloocks instead)"
       deprecated: true
       responses:
@@ -68,9 +68,9 @@ paths:
   /room/list/{roomType}:
     get:
       servers:
-        - url: https://game.pixelwalker.net
+        - url: https://server.pixelwalker.net
       tags:
-        - "Game"
+        - "Server"
       summary: Gets lobby information for room type.
       parameters:
         - in: path
@@ -89,9 +89,9 @@ paths:
   /worlds/{worldId}/minimap:
     get:
       servers:
-        - url: https://game.pixelwalker.net
+        - url: https://server.pixelwalker.net
       tags:
-        - "Game"
+        - "Server"
       summary: Returns minimap image.
       parameters:
         - in: path
