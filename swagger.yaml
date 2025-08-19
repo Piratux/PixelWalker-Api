@@ -250,6 +250,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/APIFailure'
+  /api/shop/spend/world:
+    post:
+      servers:
+        - url: https://api.pixelwalker.net
+      tags:
+        - "Api"
+      summary: Spends authenticated user's energy on world.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                height:
+                  type: integer
+                width:
+                  type: integer
+      responses:
+        '200':
+          description: Successful energy spend.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopSpendWorldResult'
+        '400':
+          description: Invalid request or credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIFailure'
   /atlases/sprites.png:
     get:
       servers:
@@ -755,6 +786,18 @@ components:
                   type: integer
             scale:
               type: number
+    ShopSpendWorldResult:
+      type: object
+      properties:
+        bonusEnergy:
+          type: integer
+        energyTime:
+          type: string
+          format: date-time
+        itemEnergySpent:
+          type: integer
+        maxEnergy:
+          type: integer
   securitySchemes:
     ApiKey:
       type: apiKey
