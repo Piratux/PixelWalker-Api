@@ -6,7 +6,7 @@ info:
     Hopefully PixelWalker developers will change their mind, and expose OpenApi endpoint like this one and maintain it themselves.
     
     Websocket protocol (WSS) can be found <a href="https://github.com/PixelWalkerGame/Protocol" target="_blank">here</a>.
-  version: 0.24.0-alpha
+  version: 0.25.0-alpha
   title: PixelWalker API
 tags:
   - name: Server
@@ -48,23 +48,6 @@ paths:
                 type: "array"
                 items:
                   $ref: '#/components/schemas/Block'
-  /mappings:
-    get:
-      servers:
-        - url: https://server.pixelwalker.net
-      tags:
-        - "Server"
-      summary: "Gets all blocks available in PixelWalker (deprecated, use /listbloocks instead)"
-      deprecated: true
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: "object"
-                additionalProperties:
-                  type: "number"
   /room/list/{roomType}:
     get:
       servers:
