@@ -6,7 +6,7 @@ info:
     Hopefully PixelWalker developers will change their mind, and expose OpenApi endpoint like this one and maintain it themselves.
     
     Websocket protocol (WSS) can be found <a href="https://github.com/PixelWalkerGame/Protocol" target="_blank">here</a>.
-  version: 0.25.0-alpha
+  version: 2025.12.2
   title: PixelWalker API
 tags:
   - name: Server
@@ -22,7 +22,7 @@ paths:
         - url: https://server.pixelwalker.net
       tags:
         - "Server"
-      summary: "Gets server version"
+      summary: "Returns room type"
       responses:
         200:
           description: Successful operation
@@ -32,6 +32,24 @@ paths:
                 type: "array"
                 items:
                   type: "string"
+                  description: As of version 2025.12.0, value always 'pixelwalker'.
+  /version:
+    get:
+      servers:
+        - url: https://server.pixelwalker.net
+      tags:
+        - "Server"
+      summary: "Returns latest game version"
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
   /listblocks:
     get:
       servers:
@@ -349,48 +367,98 @@ components:
             - 1: Foreground
             
             - 2: Overlay
-        BlockDataArgs:
+        Fields:
           type: array
           items:
-            type: integer
-          description: |-
-            Array of argument types for block. If this field is not specified, block has no arguments.
-            
-            Possible argument type values:
-            
-            - 0: String
-            
-            - 1: Byte
-            
-            - 2: Int16
-            
-            - 3: Int32
-            
-            - 4: Int64
-            
-            - 5: Float
-            
-            - 6: Double
-            
-            - 7: Boolean
-            
-            - 8: ByteArray
-            
-            - 9: Uint32
+            oneOf:
+              - type: object
+                properties:
+                  Name:
+                    type: string
+                    description: Name of the field, used for identifying the field.
+                  Type:
+                    type: string
+                    enum: [ "String" ]
+                    description: Type of the field.
+                  Description:
+                    type: string
+                    description: Description describing what this field is for.
+                  DefaultValue:
+                    type: string
+                    description: The default value set for this field. If applicable.
+                  Required:
+                    type: boolean
+                    description: Whether if this field is required.
+                  Pattern:
+                    type: string
+                    description: Regex string to validate the input if not undefined.
+              - type: object
+                properties:
+                  Name:
+                    type: string
+                  Type:
+                    type: string
+                    enum: [ "Int32", "UInt32" ]
+                  Description:
+                    type: string
+                  DefaultValue:
+                    type: number
+                  Required:
+                    type: boolean
+                  MinValue:
+                    type: number
+                    description: The minimum possible value for this field.
+                  MaxValue:
+                    type: number
+                    description: The maximum possible value for this field.
+                  ExcludedValues:
+                    type: array
+                    items:
+                      type: number
+                    description: List of numbers whose values cannot be given for this field.
+              - type: object
+                properties:
+                  Name:
+                    type: string
+                  Type:
+                    type: string
+                    enum: [ "Boolean" ]
+                  Description:
+                    type: string
+                  DefaultValue:
+                    type: boolean
+                  Required:
+                    type: boolean
+              - type: object
+                properties:
+                  Name:
+                    type: string
+                  Type:
+                    type: string
+                    enum: [ "DrumNote[]", "PianoNote[]", "GuitarNote[]" ]
+                  Description:
+                    type: string
+                  Required:
+                    type: boolean
+                  MinLength:
+                    type: number
+                    description: For note fields, it's currently just 1 for now.
+                  MaxLength:
+                    type: number
+                    description: For note fields, it's currently just 6 for now.
         MinimapColor:
           type: integer
           description: >-
             Unsigned 32 bit integer.
             
             (If you need the hex string: use .toString(16) with 16 as the radix and trim off the leading FF. To convert it back to number, use parseInt(hexstring, 16))
-        LegacyId:
-          type: integer
-          description: EELVL ID.
-        LegacyMorph:
-          type: array
-          items:
-            type: integer
-          description: EELVL Block arguments.
+        LegacyMorphs:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: integer
+          description: Object where keys are EELVL ID and values are EELVL Block morph arguments. If there is no EELVL ID mapping for block, empty object is returned.
       type: object
     LobbyResult:
       type: object
@@ -437,7 +505,7 @@ components:
           description: Owner of world.
         ownerRole:
           type: string
-          description: "Special role of owner. Observed possible values: [admin, committee, dev, mod]. If owner doesn't have role, empty string returned."
+          description: "Special role of owner. Observed possible values: [admin, committee, dev, mod, artist]. If owner doesn't have role, empty string returned."
         plays:
           type: integer
           description: The number of times this world has been played.
@@ -508,7 +576,7 @@ components:
           description: The title of the last world the user was in.
         role:
           type: string
-          description: "Special role of user. Observed possible values: [admin, committee, dev, mod]. If owner doesn't have role, empty string returned."
+          description: "Special role of user. Observed possible values: [admin, committee, dev, mod, artist]. If owner doesn't have role, empty string returned."
         updated:
           type: string
           format: date-time
@@ -645,7 +713,7 @@ components:
           description: ID.
         role:
           type: string
-          description: "Special role of user. Observed possible values: [admin, committee, dev, mod]. If owner doesn't have role, empty string returned."
+          description: "Special role of user. Observed possible values: [admin, committee, dev, mod, artist]. If owner doesn't have role, empty string returned."
         updated:
           type: string
           format: date-time
@@ -684,7 +752,7 @@ components:
           description: The user's username.
         role:
           type: string
-          description: "Special role of user. Observed possible values: [admin, committee, dev, mod]. If user doesn't have role, empty string returned."
+          description: "Special role of user. Observed possible values: [admin, committee, dev, mod, artist]. If user doesn't have role, empty string returned."
         face:
           type: integer
           description: The user's face ID.
