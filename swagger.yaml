@@ -82,7 +82,7 @@ paths:
           description: Room type from /listroomtypes
       responses:
         '200':
-          description: Successful operation. Returns a list of lobbies.
+          description: Successful operation.
           content:
             application/json:
               schema:
@@ -103,7 +103,7 @@ paths:
           description: World ID
       responses:
         '200':
-          description: Successful operation. Returns the join key.
+          description: Successful operation.
           content:
             image/png:
               schema:
@@ -131,7 +131,7 @@ paths:
                   description: The user's password.
       responses:
         '200':
-          description: Successful authentication.
+          description: Successful operation.
           content:
             application/json:
               schema:
@@ -164,7 +164,7 @@ paths:
           description: World ID.
       responses:
         '200':
-          description: Successful operation. Returns the join key.
+          description: Successful operation.
           content:
             application/json:
               schema:
@@ -197,7 +197,7 @@ paths:
           description: The number of items per page.
       responses:
         '200':
-          description: Successful operation. Returns the join key.
+          description: Successful operation.
           content:
             application/json:
               schema:
@@ -224,7 +224,7 @@ paths:
           description: The number of items per page.
       responses:
         '200':
-          description: Successful operation. Returns the join key.
+          description: Successful operation.
           content:
             application/json:
               schema:
@@ -238,7 +238,7 @@ paths:
       summary: Returns authenticated user friends.
       responses:
         '200':
-          description: Successful operation. Returns the list of friends.
+          description: Successful operation.
           content:
             application/json:
               schema:
@@ -260,7 +260,7 @@ paths:
       summary: Returns available shop items. Requires authentication.
       responses:
         '200':
-          description: Successful operation. Returns the list of shop items.
+          description: Successful operation.
           content:
             application/json:
               schema:
@@ -273,13 +273,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/APIFailure'
-  /api/shop/spend/world:
+  /api/energy:
+    get:
+      servers:
+        - url: https://api.pixelwalker.net
+      tags:
+        - "Api"
+      summary: Returns user's energy information. Requires authentication.
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EnergyInfoItem'
+        '403':
+          description: Not authenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIFailure'
+  /api/shop/spend/item:
     post:
       servers:
         - url: https://api.pixelwalker.net
       tags:
         - "Api"
-      summary: Spends authenticated user's energy on world.
+      summary: Spends authenticated user's energy on shop item.
       requestBody:
         required: true
         content:
@@ -293,11 +315,11 @@ paths:
                   type: integer
       responses:
         '200':
-          description: Successful energy spend.
+          description: Successful operation.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ShopSpendWorldResult'
+                $ref: '#/components/schemas/EnergyInfoShopItem'
         '400':
           description: Invalid request or credentials.
           content:
@@ -328,7 +350,7 @@ paths:
       summary: Returns spritesheet info for sprites.png.
       responses:
         '200':
-          description: Successful operation. Returns the list of friends.
+          description: Successful operation.
           content:
             application/json:
               schema:
@@ -357,7 +379,7 @@ paths:
       summary: Returns spritesheet info for blocks.png.
       responses:
         '200':
-          description: Successful operation. Returns the list of friends.
+          description: Successful operation.
           content:
             application/json:
               schema:
@@ -905,17 +927,37 @@ components:
                   type: integer
             scale:
               type: number
-    ShopSpendWorldResult:
+    EnergyInfoItem:
       type: object
       properties:
         bonusEnergy:
           type: integer
-        energyTime:
-          type: string
-          format: date-time
+        currentEnergy:
+          type: integer
+        energyRefillSeconds:
+          type: integer
+        maxEnergy:
+          type: integer
+        secondsUntilNext:
+          type: number
+        timedEnergy:
+          type: integer
+    EnergyInfoShopItem:
+      type: object
+      properties:
+        bonusEnergy:
+          type: integer
+        currentEnergy:
+          type: integer
+        energyRefillSeconds:
+          type: integer
         itemEnergySpent:
           type: integer
         maxEnergy:
+          type: integer
+        secondsUntilNext:
+          type: number
+        timedEnergy:
           type: integer
   securitySchemes:
     ApiKey:
