@@ -251,6 +251,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/APIFailure'
+  /api/shop/items:
+    get:
+      servers:
+        - url: https://api.pixelwalker.net
+      tags:
+        - "Api"
+      summary: Returns available shop items. Requires authentication.
+      responses:
+        '200':
+          description: Successful operation. Returns the list of shop items.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShopItem'
+        '403':
+          description: Not authenticated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIFailure'
   /api/shop/spend/world:
     post:
       servers:
@@ -765,6 +787,53 @@ components:
         lastWorldTitle:
           type: string
           description: The title of the last world the user was in.
+    ShopItem:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShopItemObject'
+
+    ShopItemObject:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the shop item.
+        type:
+          type: string
+          description: The type of the shop item.
+        name:
+          type: string
+          description: The display name of the shop item.
+        description:
+          type: string
+          description: The description of the shop item.
+        energyCost:
+          type: integer
+          description: The energy cost to purchase the item.
+        energyPerClick:
+          type: integer
+          description: The energy received per click for this item.
+        isNew:
+          type: boolean
+          description: Whether the item is new.
+        energySpent:
+          type: integer
+          description: The amount of energy already spent on this item.
+        owned:
+          type: boolean
+          description: Whether the user owns this item.
+        percentageOff:
+          type: integer
+          description: Discount percentage off the original price.
+        originalEnergyCost:
+          type: integer
+          description: The original energy cost before any discounts.
+        originalEnergyPerClick:
+          type: integer
+          description: The original energy per click before any changes.
     AtlasItem:
       type: object
       properties:
