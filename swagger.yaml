@@ -6,7 +6,7 @@ info:
     Hopefully PixelWalker developers will change their mind, and expose OpenApi endpoint like this one and maintain it themselves.
     
     Websocket protocol (WSS) can be found <a href="https://github.com/PixelWalkerGame/Protocol" target="_blank">here</a>.
-  version: 2025.12.2
+  version: 2026.3.0
   title: PixelWalker API
 tags:
   - name: Server
@@ -530,9 +530,12 @@ components:
       type: object
       description: User data returned after successful authentication.
       properties:
-        banned:
-          type: boolean
-          description: Indicates if the user is banned.
+        aura:
+          type: string
+          description: The user's god mode aura.
+        bonusEnergy:
+          type: integer
+          description: Bonus max energy.
         collectionId:
           type: string
           description: The ID of the collection the user belongs to.
@@ -547,46 +550,29 @@ components:
           type: string
           format: email
           description: The user's email address.
-        emailVisibility:
-          type: boolean
-          description: Indicates if the user's email address is visible to others.
-        face:
-          type: integer
-          description: The user's face ID.
-        friends:
-          type: array
-          items:
-            type: string
-          description: List of user IDs of the user's friends.
+        energyTime:
+          type: string
+          format: date-time
+          description: The date and time for energy recharge.
         id:
           type: string
           description: ID.
-        isSuspicious:
-          type: boolean
-          description: Indicates if the user is considered suspicious.
-        lastSeen:
-          type: string
-          format: date-time
-          description: The date and time the user was last seen (ISO 8601 format).
-        lastWorld:
-          type: string
-          description: The ID of the last world the user was in.
-        lastWorldTitle:
-          type: string
-          description: The title of the last world the user was in.
+        maxEnergy:
+          type: integer
+          description: Maximum energy value.
         role:
           type: string
           description: "Special role of user. Observed possible values: [admin, committee, dev, mod, artist]. If owner doesn't have role, empty string returned."
+        smiley:
+          type: string
+          description: The user's smiley.
         updated:
           type: string
           format: date-time
-          description: The date and time the user was last updated (ISO 8601 format).
+          description: The date and time entry was updated (ISO 8601 format).
         username:
           type: string
           description: The user's username.
-        verified:
-          type: boolean
-          description: Indicates if the user's email address is verified.
 
     APIFailure:
       type: object
@@ -599,8 +585,8 @@ components:
           type: string
           description: A human-readable error message (e.g., "Failed to authenticate.").
         status:
-          type: string
-          description: "HTTP code (e.g., '400')."
+          type: integer
+          description: "HTTP code (e.g., 400)."
 
     FieldError:
       type: object
@@ -695,6 +681,12 @@ components:
     UserItem:
       type: object
       properties:
+        aura:
+          type: string
+          description: The user's god mode aura.
+        bonusEnergy:
+          type: integer
+          description: Bonus max energy.
         collectionId:
           type: string
           description: The ID of the collection the user belongs to.
@@ -705,15 +697,22 @@ components:
           type: string
           format: date-time
           description: The date and time entry was created (ISO 8601 format).
-        face:
-          type: integer
-          description: The user's face ID.
+        energyTime:
+          type: string
+          format: date-time
+          description: The date and time for energy recharge.
         id:
           type: string
           description: ID.
+        maxEnergy:
+          type: integer
+          description: Maximum energy value.
         role:
           type: string
           description: "Special role of user. Observed possible values: [admin, committee, dev, mod, artist]. If owner doesn't have role, empty string returned."
+        smiley:
+          type: string
+          description: The user's smiley.
         updated:
           type: string
           format: date-time
