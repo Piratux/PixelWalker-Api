@@ -6,7 +6,7 @@ info:
     Hopefully PixelWalker developers will change their mind, and expose OpenApi endpoint like this one and maintain it themselves.
     
     Websocket protocol (WSS) can be found <a href="https://github.com/PixelWalkerGame/Protocol" target="_blank">here</a>.
-  version: 2026.3.0
+  version: 2026.13.0
   title: PixelWalker API
 tags:
   - name: Server
@@ -142,20 +142,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/APIFailure'
-  /api/joinkey/{roomType}/{roomId}:
-    get:
+  /api/joinkey/{roomId}:
+    post:
       servers:
         - url: https://api.pixelwalker.net
       tags:
         - "Api"
       summary: Retrieves a join key for a specific room.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                protoVersion:
+                  type: string
+                  description: The protocol version.
       parameters:
-        - in: path
-          name: roomType
-          schema:
-            type: string
-          required: true
-          description: Room type from /listroomtypes
         - in: path
           name: roomId
           schema:
@@ -341,20 +345,6 @@ paths:
               schema:
                 type: string
                 format: binary
-  /atlases/sprites.json:
-    get:
-      servers:
-        - url: https://client.pixelwalker.net
-      tags:
-        - "Client"
-      summary: Returns spritesheet info for sprites.png.
-      responses:
-        '200':
-          description: Successful operation.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AtlasItem'
   /atlases/blocks.png:
     get:
       servers:
@@ -370,7 +360,35 @@ paths:
               schema:
                 type: string
                 format: binary
-  /atlases/blocks.json:
+  /catalog/smileys.json:
+    get:
+      servers:
+        - url: https://client.pixelwalker.net
+      tags:
+        - "Client"
+      summary: Returns spritesheet info for sprites.png.
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AtlasItem'
+  /catalog/auras.json:
+    get:
+      servers:
+        - url: https://client.pixelwalker.net
+      tags:
+        - "Client"
+      summary: Returns spritesheet info for sprites.png.
+      responses:
+        '200':
+          description: Successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AtlasItem'
+  /catalog/blocks.json:
     get:
       servers:
         - url: https://client.pixelwalker.net
